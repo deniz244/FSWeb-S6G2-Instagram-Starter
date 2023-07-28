@@ -16,7 +16,12 @@ const AramaCubugu = (props) => {
         <FontAwesomeIcon icon={faInstagram} />
       </div>
       <form className="search-form">
-        <input type="text" placeholder="Arama" />
+        <input
+          type="text"
+          placeholder="Arama"
+          value={props.term}
+          onChange={(evt) => props.setTermCB(evt.target.value)}
+        />
       </form>
       <div className="social-wrapper">
         <div className="social">

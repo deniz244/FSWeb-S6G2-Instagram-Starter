@@ -21,8 +21,10 @@ const App = () => {
   // Arama çubuğunun çalışması için , arama kriterini tutacak başka bir state'e ihtiyacımız olacak.
 
   const [gonderiler, setGonderiler] = useState(sahteVeri);
+  const [aramaKriteri, setAramaKriteri] = useState("");
 
   const gonderiyiBegen = (gonderiID) => {
+    console.log("gonderiyiBegen tetiklendi", gonderiID);
     /*
       Bu fonksiyon, belirli bir id ile gönderinin beğeni sayısını bir artırma amacına hizmet eder.
 
@@ -34,12 +36,31 @@ const App = () => {
         - gönderinin idsi "gonderiID" ile eşleşirse, istenen değerlerle yeni bir gönderi nesnesi döndürün.
         - aksi takdirde, sadece gönderi nesnesini değiştirmeden döndürün.
      */
+    console.log("mapÖncesi", gonderiler);
+    const updatedData = gonderiler.map((gItem) => {
+      if (gItem.id === gonderiID) {
+        /*const updatedGonderi = { ...gItem };
+        updatedGonderi.likes = updatedGonderi.likes + 1;
+        return updatedGonderi;*/
+
+        return {
+          ...gItem,
+          likes: gItem.likes + 1,
+        };
+      }
+      return gItem;
+    });
+
+    setGonderiler(updatedData);
   };
 
   return (
     <div className="App">
-      <Gonderiler />
-      <AramaCubugu />
+      <AramaCubugu term={aramaKriteri} setTermCB={setAramaKriteri} />
+      <Gonderiler
+        gonderilerProp={gonderiler}
+        gonderiyiBegenCB={gonderiyiBegen}
+      />
       {/* Yukarıdaki metni projeye başladığınızda silin*/}
       {/* AramaÇubuğu ve Gönderiler'i render etmesi için buraya ekleyin */}
       {/* Her bileşenin hangi proplara ihtiyaç duyduğunu kontrol edin, eğer ihtiyaç varsa ekleyin! */}
